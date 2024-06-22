@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Client;
-use \App\Models\Brand;
+use App\Models\Brand;
 
 
 class ParseBrand extends Command
@@ -35,7 +35,7 @@ class ParseBrand extends Command
         $brandList = $html->filter('[data-ftid="component_cars-list"]');
 
         // Extract the href and text from anchor elements within the target element
-        $brands = $brandList->filter('a')->each(function (Crawler $node, $i) {
+        $brands = $brandList->filter('a')->each(function (Crawler $node) {
             $link['link'] = $node->attr('href');
             $link['name'] = $node->text();
             return $link;
@@ -56,7 +56,7 @@ class ParseBrand extends Command
 
         // Use the Symfony DomCrawler component to parse the HTML
         $crawler = new Crawler($html);
-       
+
         return $crawler;
     }
 }

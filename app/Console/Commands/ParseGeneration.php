@@ -5,8 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Client;
-use \App\Models\Brand;
-use \App\Models\Generation;
+use App\Models\Brand;
+use App\Models\Generation;
 
 class ParseGeneration extends Command
 {
@@ -42,8 +42,8 @@ class ParseGeneration extends Command
                 // Check if matches were found
                 if (!empty($matches)) { $brandTextContent = $matches[0]; }
             }
-        
-            $elements->filter('a')->each(function (Crawler $node, $i) use ($brand, $brandTextContent) {
+
+            $elements->filter('a')->each(function (Crawler $node) use ($brand, $brandTextContent) {
                 $generation['brand_id'] = $brand->id ?? null;
                 $generation['market'] = $brandTextContent ?? null;
                 $generation['link'] = $node->attr('href') ?? null;
@@ -62,7 +62,7 @@ class ParseGeneration extends Command
 
         // Use the Symfony DomCrawler component to parse the HTML
         $crawler = new Crawler($html);
-       
+
         return $crawler;
     }
 }
